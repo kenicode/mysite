@@ -1,9 +1,8 @@
-import { prisma } from '@/lib/prisma'
+import { getProjectBySlug, ProjectStatus } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, Tag, Code2, AlertTriangle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { ProjectStatus } from '@prisma/client'
 
 const STATUS_MAP: Record<ProjectStatus, { label: string; color: string }> = {
   FINISHED: { label: 'Concluído', color: 'bg-green-500/10 text-green-400 border-green-500/20' },
@@ -19,15 +18,7 @@ interface PageProps {
 export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params
 
-  const project = await prisma.project.findUnique({
-    where: { slug },
-    include: {
-      technologies: {
-        include: { technology: true },
-      },
-      media: true,
-    },
-  })
+  const project = getProjectBySlug(slug)
 
   // Se o projeto não existir ou não estiver publicado, retorna 404
   if (!project || !project.is_published) {

@@ -55,12 +55,12 @@ export function AnimatedBackground() {
         orbs.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
           radius: Math.min(width, height) * (0.2 + Math.random() * 0.15),
           color,
           phase: Math.random() * Math.PI * 2,
-          phaseSpeed: 0.003 + Math.random() * 0.005,
+          phaseSpeed: 0.008 + Math.random() * 0.01,
         })
       }
     }

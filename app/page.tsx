@@ -1,8 +1,7 @@
-import { prisma } from '@/lib/prisma'
+import { getProjectsByStatus, ProjectStatus } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ArrowRight, Code2, Layers } from 'lucide-react'
-import { ProjectStatus } from '@prisma/client'
 
 // Dicionário para tradução do status e cores do Badge
 const STATUS_MAP: Record<ProjectStatus, { label: string; color: string }> = {
@@ -20,21 +19,8 @@ export default async function Home({
   const params = await searchParams
   const statusFilter = params?.status as ProjectStatus | undefined
 
-  // Leitura direta no RSC — cacheada no Edge
-  const projects = await prisma.project.findMany({
-    where: {
-      is_published: true,
-      ...(statusFilter && Object.keys(STATUS_MAP).includes(statusFilter) ? { status: statusFilter } : {}),
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      technologies: {
-        include: { technology: true }
-      }
-    }
-  })
+  // Leitura direta do arquivo local
+  const projects = getProjectsByStatus(statusFilter)
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -52,7 +38,7 @@ export default async function Home({
         <div className="glass-card text-center py-24 rounded-xl">
           <Layers className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-zinc-300">Nenhum projeto encontrado nesta categoria.</h2>
-          <p className="text-zinc-500 mt-2 max-w-md mx-auto">Os projetos serão exibidos aqui assim que forem publicados pelo painel administrativo.</p>
+          <p className="text-zinc-500 mt-2 max-w-md mx-auto">Os projetos serão exibidos aqui assim que forem adicionados ao arquivo de dados.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
