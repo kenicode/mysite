@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Folder, CheckCircle, Clock, BookOpen, FileText, Sparkles, Phone, Mail, Linkedin, Github } from 'lucide-react'
+import { Folder, CheckCircle, Clock, BookOpen, FileText, Sparkles, Phone, Mail, Globe, Code2 } from 'lucide-react'
 
 export function Sidebar() {
   return (
@@ -106,13 +106,13 @@ export function Sidebar() {
             </a>
             <a href="https://linkedin.com/in/renatochagas87" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-xs text-zinc-400 hover:text-white transition-colors">
               <div className="w-6 h-6 rounded-md bg-white/[0.03] border border-white/[0.05] flex items-center justify-center">
-                <Linkedin className="w-3 h-3" />
+                <Globe className="w-3 h-3" />
               </div>
               <span>renatochagas87</span>
             </a>
             <a href="https://github.com/kenicode" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-xs text-zinc-400 hover:text-white transition-colors">
               <div className="w-6 h-6 rounded-md bg-white/[0.03] border border-white/[0.05] flex items-center justify-center">
-                <Github className="w-3 h-3" />
+                <Code2 className="w-3 h-3" />
               </div>
               <span>@kenicode</span>
             </a>
