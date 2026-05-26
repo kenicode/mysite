@@ -55,12 +55,12 @@ export function AnimatedBackground() {
         orbs.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5,
           radius: Math.min(width, height) * (0.2 + Math.random() * 0.15),
           color,
           phase: Math.random() * Math.PI * 2,
-          phaseSpeed: 0.008 + Math.random() * 0.01,
+          phaseSpeed: 0.015 + Math.random() * 0.015,
         })
       }
     }
@@ -94,8 +94,8 @@ export function AnimatedBackground() {
 
         // Draw radial gradient orb
         const grad = context.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, r)
-        grad.addColorStop(0, `rgba(${orb.color.r}, ${orb.color.g}, ${orb.color.b}, 0.25)`)
-        grad.addColorStop(0.4, `rgba(${orb.color.r}, ${orb.color.g}, ${orb.color.b}, 0.08)`)
+        grad.addColorStop(0, `rgba(${orb.color.r}, ${orb.color.g}, ${orb.color.b}, 0.32)`)
+        grad.addColorStop(0.4, `rgba(${orb.color.r}, ${orb.color.g}, ${orb.color.b}, 0.12)`)
         grad.addColorStop(1, `rgba(${orb.color.r}, ${orb.color.g}, ${orb.color.b}, 0)`)
 
         context.fillStyle = grad
