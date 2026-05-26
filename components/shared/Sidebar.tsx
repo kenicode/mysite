@@ -40,7 +40,9 @@ export function Sidebar() {
       label: 'Telefone',
       value: '+55 81 99609-6125',
       actionUrl: 'tel:+5581996096125',
-      color: 'text-teal-400 bg-teal-500/10 border-teal-500/20'
+      color: 'text-teal-400 bg-teal-500/10 border-teal-500/20',
+      popoverAlign: 'left-0 -translate-x-2',
+      arrowAlign: 'left-[28px] -translate-x-1/2'
     },
     {
       id: 'email',
@@ -48,7 +50,9 @@ export function Sidebar() {
       label: 'E-mail',
       value: 'renatochagas.oficial@gmail.com',
       actionUrl: 'mailto:renatochagas.oficial@gmail.com',
-      color: 'text-purple-400 bg-purple-500/10 border-purple-500/20'
+      color: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+      popoverAlign: 'left-[-68px]',
+      arrowAlign: 'left-[88px] -translate-x-1/2'
     },
     {
       id: 'linkedin',
@@ -56,7 +60,9 @@ export function Sidebar() {
       label: 'LinkedIn',
       value: 'renatochagas87',
       actionUrl: 'https://linkedin.com/in/renatochagas87',
-      color: 'text-blue-400 bg-blue-500/10 border-blue-500/20'
+      color: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+      popoverAlign: 'right-[-68px] left-auto',
+      arrowAlign: 'right-[88px] left-auto translate-x-1/2'
     },
     {
       id: 'github',
@@ -64,7 +70,9 @@ export function Sidebar() {
       label: 'GitHub',
       value: '@kenicode',
       actionUrl: 'https://github.com/kenicode',
-      color: 'text-zinc-400 bg-zinc-500/10 border-zinc-500/20'
+      color: 'text-zinc-400 bg-zinc-500/10 border-zinc-500/20',
+      popoverAlign: 'right-0 translate-x-2 left-auto',
+      arrowAlign: 'right-[28px] left-auto translate-x-1/2'
     }
   ]
 
@@ -236,9 +244,9 @@ export function Sidebar() {
 
                   {/* Tooltip / Popover Panel */}
                   {isTooltipActive && (
-                    <div className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 z-50 w-64 p-3 bg-zinc-900/95 border border-white/10 rounded-xl shadow-2xl backdrop-blur-xl animate-in fade-in duration-200 slide-in-from-bottom-2">
+                    <div className={`absolute bottom-full mb-3 z-50 w-64 p-3 bg-zinc-900/95 border border-white/10 rounded-xl shadow-2xl backdrop-blur-xl animate-in fade-in duration-200 slide-in-from-bottom-2 ${contact.popoverAlign}`}>
                       {/* Little Arrow */}
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-zinc-900" />
+                      <div className={`absolute top-full -mt-1 border-4 border-transparent border-t-zinc-900 ${contact.arrowAlign}`} />
                       
                       <div className="text-xs font-semibold text-zinc-300 mb-1">{contact.label}</div>
                       <div className="text-xs text-white bg-black/30 px-2 py-1.5 rounded-lg border border-white/[0.04] select-all break-all mb-2.5 font-mono">
