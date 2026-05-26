@@ -24,7 +24,7 @@ export function LoginForm() {
     <form action={handleSubmit} className="space-y-4 mt-2">
       <div>
         <label className="text-sm font-semibold text-zinc-300">E-mail</label>
-        <Input name="email" type="email" required placeholder="admin@kenicode.com" className="bg-zinc-950 border-zinc-800 mt-1.5" />
+        <Input name="email" type="email" required placeholder="Seu e-mail de acesso" className="bg-zinc-950 border-zinc-800 mt-1.5" />
       </div>
       <div>
         <label className="text-sm font-semibold text-zinc-300">Senha</label>
