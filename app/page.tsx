@@ -1,14 +1,46 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Sparkles, Play, Video, Monitor, Info } from 'lucide-react'
+import { Sparkles, Play, Video } from 'lucide-react'
+import type { Metadata } from 'next'
 
-export default async function Home({
-  searchParams,
-}: {
+// CONFIGURAÇÃO DOS VÍDEOS DE APRESENTAÇÃO
+// Substitua as strings vazias pelos links de embed correspondentes (ex: https://www.youtube.com/embed/XYZ)
+const VIDEO_URL_PT = "" // Link do vídeo em Português
+const VIDEO_URL_EN = "" // Link do vídeo em Inglês
+
+interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams
   const isEn = params?.lang === 'en'
+
+  return {
+    title: isEn 
+      ? 'Renato Chagas | Software Engineer & Tech Leader Portfolio' 
+      : 'Renato Chagas | Engenheiro de Software & Liderança Técnica',
+    description: isEn
+      ? 'Welcome to the software engineering portfolio of Renato Chagas (KeniCode). Explore high-performance web systems, static edge generation, and advanced technical architectures.'
+      : 'Bem-vindo ao portfólio de engenharia de software de Renato Chagas (KeniCode). Explore sistemas web de alta performance, geração estática na borda e arquiteturas técnicas avançadas.',
+    keywords: isEn
+      ? ['Software Engineer', 'Next.js', 'React', 'TypeScript', 'Web Development', 'Cloudflare Pages', 'SSG', 'Glassmorphism', 'Clean Code', 'Portfolio']
+      : ['Engenheiro de Software', 'Next.js', 'React', 'TypeScript', 'Desenvolvimento Web', 'Cloudflare Pages', 'SSG', 'Glassmorphism', 'Código Limpo', 'Portfólio', 'Fullstack'],
+    openGraph: {
+      title: isEn ? 'Renato Chagas | Software Engineer' : 'Renato Chagas | Engenharia de Software',
+      description: isEn
+        ? 'Explore projects, case studies, and code architectures compiled on Cloudflare Edge.'
+        : 'Explore projetos, estudos de caso e arquiteturas de código compiladas na Cloudflare Edge.',
+      images: ['/renato_profile_photo.png'],
+    }
+  }
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams
+  const isEn = params?.lang === 'en'
+
+  const activeVideoUrl = isEn ? VIDEO_URL_EN : VIDEO_URL_PT
 
   // Traduções para a página principal
   const t = {
@@ -21,7 +53,7 @@ export default async function Home({
     videoDesc: isEn
       ? 'Watch the presentation below to learn more about my technical journey, software engineering objectives, and the architectural principles behind this platform.'
       : 'Assista à apresentação abaixo para conhecer mais sobre minha jornada técnica, objetivos em engenharia de software e os conceitos arquiteturais aplicados nesta plataforma.',
-    videoPlaceholder: isEn ? 'Interactive Media Player' : 'Reprodutor de Mídia Interativo',
+    videoPlaceholder: isEn ? 'Interactive Media Player (English Video)' : 'Reprodutor de Mídia Interativo (Vídeo em Português)',
     ctaProjects: isEn ? 'Explore My Projects' : 'Explorar Meus Projetos',
   }
 
@@ -78,27 +110,38 @@ export default async function Home({
 
         {/* High-End Glass Video Player Box */}
         <div className="relative aspect-video w-full rounded-xl border border-white/10 overflow-hidden bg-black/40 shadow-2xl flex flex-col items-center justify-center group">
-          {/* Subtle scanner lines effect */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[size:100%_4px,3px_100%] pointer-events-none opacity-40" />
+          {activeVideoUrl ? (
+            <iframe
+              src={activeVideoUrl}
+              className="absolute inset-0 w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <>
+              {/* Subtle scanner lines effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[size:100%_4px,3px_100%] pointer-events-none opacity-40" />
 
-          {/* Embed or beautiful interactive player overlay. You can easily insert an <iframe src="..."> here */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-gradient-to-b from-transparent to-zinc-950/40">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/5 border border-white/15 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:border-teal-500/40 group-hover:bg-teal-500/10 transition-all duration-500 shadow-xl cursor-pointer">
-              <Play className="w-6 h-6 md:w-8 md:h-8 text-white group-hover:text-teal-400 transition-colors ml-1 fill-white/10 group-hover:fill-teal-500/20" />
-            </div>
-            
-            <div className="mt-4 text-center">
-              <span className="text-xs md:text-sm font-semibold tracking-wider text-zinc-400 group-hover:text-zinc-200 transition-colors uppercase">
-                {t.videoPlaceholder}
-              </span>
-              <p className="text-[10px] md:text-xs text-zinc-500 mt-1 max-w-xs md:max-w-md mx-auto">
-                {isEn 
-                  ? 'Replace this card with your YouTube, Vimeo, or self-hosted video embed in app/page.tsx.' 
-                  : 'Substitua este player pelo embed do seu vídeo do YouTube, Vimeo ou hospedado em app/page.tsx.'
-                }
-              </p>
-            </div>
-          </div>
+              {/* Embed or beautiful interactive player overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-gradient-to-b from-transparent to-zinc-950/40">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/5 border border-white/15 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:border-teal-500/40 group-hover:bg-teal-500/10 transition-all duration-500 shadow-xl cursor-pointer">
+                  <Play className="w-6 h-6 md:w-8 md:h-8 text-white group-hover:text-teal-400 transition-colors ml-1 fill-white/10 group-hover:fill-teal-500/20" />
+                </div>
+                
+                <div className="mt-4 text-center">
+                  <span className="text-xs md:text-sm font-semibold tracking-wider text-zinc-400 group-hover:text-zinc-200 transition-colors uppercase">
+                    {t.videoPlaceholder}
+                  </span>
+                  <p className="text-[10px] md:text-xs text-zinc-500 mt-1 max-w-xs md:max-w-md mx-auto">
+                    {isEn 
+                      ? 'Define VIDEO_URL_EN at the top of app/page.tsx to automatically display your English presentation video.' 
+                      : 'Defina VIDEO_URL_PT no topo de app/page.tsx para exibir automaticamente o seu vídeo de apresentação em Português.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Quick Link to Projects */}

@@ -2,6 +2,7 @@ import { getProjectsByStatus, ProjectStatus } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { ArrowRight, Code2, Layers } from 'lucide-react'
+import type { Metadata } from 'next'
 
 // Dicionário para tradução do status e cores do Badge
 const STATUS_MAP_PT: Record<ProjectStatus, { label: string; color: string }> = {
@@ -18,11 +19,32 @@ const STATUS_MAP_EN: Record<ProjectStatus, { label: string; color: string }> = {
   STUDY: { label: 'Case Study', color: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
 }
 
-export default async function ProjectsPage({
-  searchParams,
-}: {
+interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}
+
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams
+  const isEn = params?.lang === 'en'
+  const statusFilter = params?.status as ProjectStatus | undefined
+
+  const map = isEn ? STATUS_MAP_EN : STATUS_MAP_PT
+  const statusLabel = statusFilter ? ` - ${map[statusFilter]?.label}` : ''
+
+  return {
+    title: isEn 
+      ? `Projects Portfolio${statusLabel} | Renato Chagas` 
+      : `Portfólio de Projetos${statusLabel} | Renato Chagas`,
+    description: isEn
+      ? 'Explore case studies, finished platforms, and active software developments built by software engineer Renato Chagas.'
+      : 'Explore estudos de caso, plataformas concluídas e desenvolvimentos de software ativos construídos pelo engenheiro de software Renato Chagas.',
+    keywords: isEn
+      ? ['Next.js Projects', 'React Portfolio', 'TypeScript Engineering', 'Fullstack Systems', 'TDD', 'Clean Architecture']
+      : ['Projetos Next.js', 'Portfólio React', 'Engenharia TypeScript', 'Sistemas Fullstack', 'TDD', 'Arquitetura Limpa'],
+  }
+}
+
+export default async function ProjectsPage({ searchParams }: PageProps) {
   const params = await searchParams
   const statusFilter = params?.status as ProjectStatus | undefined
   const isEn = params?.lang === 'en'
