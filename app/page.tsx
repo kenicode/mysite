@@ -31,7 +31,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       description: isEn
         ? 'Explore projects, case studies, and code architectures compiled on Cloudflare Edge.'
         : 'Explore projetos, estudos de caso e arquiteturas de código compiladas na Cloudflare Edge.',
-      images: ['/renato_profile_photo.png'],
+      images: ['/renato_profile.jpg'],
     }
   }
 }
@@ -71,7 +71,7 @@ export default async function Home({ searchParams }: PageProps) {
         <div className="relative w-32 h-32 md:w-36 md:h-36 rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-purple-500/10 group shrink-0">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-teal-500/20 z-10 pointer-events-none" />
           <Image 
-            src="/renato_profile_photo.png" 
+            src="/renato_profile.jpg" 
             alt="Renato Chagas" 
             fill 
             className="object-cover group-hover:scale-105 transition-transform duration-700"

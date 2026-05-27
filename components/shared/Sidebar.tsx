@@ -86,6 +86,7 @@ export function Sidebar() {
     }
     const query = params.toString() ? `?${params.toString()}` : ''
     router.push(`${pathname}${query}`)
+    router.refresh()
   }
 
   const handleCopy = async (id: string, value: string) => {
@@ -138,7 +139,7 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Sticky Header */}
-      <div className="lg:hidden sticky top-0 z-30 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-md border-b border-white/[0.06] w-full">
+      <div className="lg:hidden sticky top-0 z-50 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-md border-b border-white/[0.06] w-full">
         <Link href={getPath('/')} className="flex items-center gap-2.5 cursor-pointer active:scale-95 transition-transform">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500/20 to-teal-500/20 border border-white/10 flex items-center justify-center backdrop-blur-sm">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
@@ -148,8 +149,12 @@ export function Sidebar() {
           </div>
         </Link>
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] text-zinc-400 hover:text-white transition-all active:scale-95"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen((prev) => !prev);
+          }}
+          className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.05] text-zinc-400 hover:text-white transition-all active:scale-95 cursor-pointer relative z-50 pointer-events-auto"
           aria-label="Toggle menu"
         >
           {isOpen ? <X className="w-5 h-5 text-purple-400" /> : <Menu className="w-5 h-5" />}
@@ -164,11 +169,18 @@ export function Sidebar() {
         />
       )}
 
+      {/* Desktop Flex Layout Spacer */}
+      <div className="hidden lg:block lg:w-64 lg:shrink-0" aria-hidden="true" />
+
       {/* Main Sidebar Panel */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-72 bg-zinc-950/95 border-r border-white/[0.06] flex flex-col p-6 transition-transform duration-300 ease-out transform lg:translate-x-0 lg:static lg:w-64 lg:h-screen lg:bg-zinc-950/60 lg:backdrop-blur-xl lg:p-4
-        ${isOpen ? 'translate-x-0 shadow-2xl shadow-purple-500/5' : '-translate-x-full'}
+        fixed inset-y-0 left-0 z-50 w-72 bg-zinc-950/95 border-r border-white/[0.06] flex flex-col p-6 transition-transform duration-300 ease-in-out transform 
+        lg:w-64 lg:h-screen lg:bg-zinc-950/40 lg:backdrop-blur-2xl lg:p-4
+        ${isOpen ? 'translate-x-0 shadow-2xl shadow-purple-500/10' : '-translate-x-full lg:translate-x-0'}
       `}>
+        {/* Decorative gradient lines to match system identity */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/20 to-transparent hidden lg:block" />
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-teal-500/20 to-transparent hidden lg:block" />
         {/* Close Button Inside Mobile Sidebar */}
         <div className="flex lg:hidden items-center justify-between mb-6 pb-4 border-b border-white/[0.06]">
           <Link href={getPath('/')} className="flex items-center gap-2.5 cursor-pointer">
@@ -178,8 +190,9 @@ export function Sidebar() {
             <span className="text-md font-bold text-white">KeniCode</span>
           </Link>
           <button
+            type="button"
             onClick={() => setIsOpen(false)}
-            className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.05] text-zinc-400 hover:text-white"
+            className="p-1.5 rounded-lg bg-white/[0.03] border border-white/[0.05] text-zinc-400 hover:text-white cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -219,7 +232,10 @@ export function Sidebar() {
         </div>
 
         {/* Sidebar Navigation */}
-        <nav className="flex-1 space-y-1 overflow-y-auto pr-1 custom-scrollbar">
+        <nav 
+          className="flex-1 space-y-1 overflow-y-auto pr-1 scrollbar-none [&::-webkit-scrollbar]:hidden" 
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           <h2 className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-bold mb-3 px-2">{t.about}</h2>
           <Link href={getPath('/about/history')} className="sidebar-link group relative overflow-hidden">
             <div className="sidebar-icon bg-indigo-500/10 border border-indigo-500/10 group-hover:border-indigo-500/30 transition-all duration-300">

@@ -144,6 +144,12 @@
       0 0 0 1px rgba(255, 255, 255, 0.05) inset,
       0 8px 32px rgba(0, 0, 0, 0.4);
     transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, background 0.15s ease;
+    
+    /* Corrige o bug de renderização/duplicação de texto no Safari/Chrome dentro de backdrop-filter quando há animações */
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
   }
 
   .glass-card:hover {
@@ -153,7 +159,7 @@
       0 0 0 1px rgba(255, 255, 255, 0.08) inset,
       0 0 20px rgba(255, 255, 255, 0.03),
       0 12px 40px rgba(0, 0, 0, 0.5);
-    transform: translateY(-2px);
+    transform: translate3d(0, -2px, 0);
   }
 
   /* Sidebar navigation link */
